@@ -1,7 +1,3 @@
-
-Sure, here is an improved version of your README file for GitHub:
-
-Example Solidity Smart Contract
 This repository contains a simple Solidity smart contract that demonstrates the use of require(), assert(), and revert() statements. These are essential tools for controlling the flow and ensuring the correctness of your smart contract.
 
 Overview
