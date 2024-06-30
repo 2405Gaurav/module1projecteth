@@ -1,35 +1,57 @@
-This repository contains a simple Solidity smart contract that demonstrates the use of require(), assert(), and revert() statements. These are essential tools for controlling the flow and ensuring the correctness of your smart contract.
-
+SchoolGradingSystem Smart Contract
 Overview
-This contract, ExampleContract, includes the following key features:
+The SchoolGradingSystem is a smart contract written in Solidity for managing student records and their grades. The contract allows the owner to add, update, and delete student records. Additionally, it includes error handling using require, revert, and assert statements to ensure data integrity and proper function execution.
 
-Store and retrieve a value.
-Ensure valid input using require().
-Check for conditions that should never be false using assert().
-Explicitly stop execution under certain conditions using revert().
+Contract Structure
+State Variables
+nextId: An unsigned integer to keep track of the next student ID.
+owner: An address representing the owner of the contract (the only entity allowed to perform certain actions).
+students: A mapping from student ID to Student struct.
+Structs
+Student: A struct containing:
+id: The unique identifier for the student.
+name: The name of the student.
+grade: The grade of the student (0-100).
+Events
+StudentAdded(uint id, string name): Emitted when a new student is added.
+GradeUpdated(uint id, uint8 grade): Emitted when a student's grade is updated.
+StudentDeleted(uint id, string name): Emitted when a student is deleted.
+Modifiers
+onlyOwner: Ensures that only the owner can call the function.
+validGrade(uint8 grade): Ensures that the grade is between 0 and 100.
+studentExists(uint id): Ensures that the student with the given ID exists.
 Functions
-storeValue(uint256 _value)
-Stores a value if it is greater than zero.
+Constructor
+solidity
+Copy code
+constructor() {
+    owner = msg.sender;
+}
+Sets the contract deployer as the owner.
 
-Input: A positive integer.
-Output:
-Stores the value if _value is greater than zero.
-Reverts the transaction with an error message if _value is zero or negative.
+Public Functions
+addStudent(string memory name) public onlyOwner
 
-checkStoredValue()
-Checks that the stored value is not zero and does not exceed 1000.
+Adds a new student with the given name and emits the StudentAdded event.
+updateGrade(uint id, uint8 grade) public onlyOwner studentExists(id) validGrade(grade)
 
-Input: None.
-Output:
-Does nothing if the conditions are met.
-Reverts the transaction if the conditions are not met.
-onlyOwnerCanCall()
-Ensures that only the contract owner can call the function.
+Updates the grade of the student with the given ID and emits the GradeUpdated event.
+getStudent(uint id) public view studentExists(id) returns (string memory name, uint8 grade)
 
-Input: None.
-Output: Executes the function if the caller is the owner, otherwise reverts the transaction.
-Usage
-To use this contract, deploy it to an Ethereum-compatible blockchain using a tool like Remix, Truffle, or Hardhat. Once deployed, you can interact with the functions as described above.
+Returns the name and grade of the student with the given ID.
+deleteStudent(uint id) public onlyOwner studentExists(id)
 
-License
-This project is licensed under the MIT License. See the LICENSE file for details.
+Deletes the student with the given ID and emits the StudentDeleted event.
+Utility Functions
+revertExample(uint8 grade) public pure
+
+Demonstrates the use of revert by throwing an error if the grade is greater than 100.
+assertExample(uint id) public view
+
+Demonstrates the use of assert by ensuring that nextId is greater than the given ID.
+Error Handling
+The contract includes several error-handling mechanisms:
+
+require: Used to check conditions before executing the function. If the condition fails, it reverts the transaction.
+revert: Used to revert the transaction with an error message.
+assert: Used to ensure that certain conditions are always true. If the condition fails, it indicates a bug in the code.
