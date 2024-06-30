@@ -1,5 +1,5 @@
-SchoolGradingSystem Smart Contract
-Overview
+SchoolGradingSystem Smart Contract:
+
 The SchoolGradingSystem is a smart contract written in Solidity for managing student records and their grades. The contract allows the owner to add, update, and delete student records. Additionally, it includes error handling using require, revert, and assert statements to ensure data integrity and proper function execution.
 
 Contract Structure
